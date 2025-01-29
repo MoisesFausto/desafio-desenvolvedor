@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\CounterProductsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Rota para upload de produtos de balcão
+Route::post('upload', [CounterProductsController::class, 'upload'])->name('upload');
+
+// Rota de historico de upload de arquivos
+
+// Busca de conteúdo de arquivo
