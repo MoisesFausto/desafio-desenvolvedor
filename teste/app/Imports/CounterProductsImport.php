@@ -8,6 +8,13 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 
 class CounterProductsImport implements ToModel, WithStartRow
 {
+    protected ?string $nameFile;
+
+    public function __construct(string $nameFile = null)
+    {
+        $this->nameFile = $nameFile;
+    }
+
     /**
     * @param array $row
     *
@@ -68,6 +75,7 @@ class CounterProductsImport implements ToModel, WithStartRow
             'CtdyTrtmntTpNm' => $row[49],
             'MktCptlstn' => $row[50],
             'CorpGovnLvlNm' => $row[51],
+            'NameFile' => $this->nameFile,
         ]);
     }
 
