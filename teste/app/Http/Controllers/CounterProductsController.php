@@ -11,8 +11,8 @@ class CounterProductsController extends Controller
     {
     }
 
-    public function upload(StoreCounterProductsRequest $request)
+    public function fileUpload(StoreCounterProductsRequest $request): JsonResponse
     {
-        return $this->counterProductsService->uploadFile($request);
+        return $this->counterProductsService->upload($request);
     }
 }
