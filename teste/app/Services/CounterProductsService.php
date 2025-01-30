@@ -14,7 +14,7 @@ class CounterProductsService
     {
     }
 
-    public function uploadFile($request): JsonResponse
+    public function upload($request): JsonResponse
     {
         $counterProducts = CounterProducts::where('NameFile', $request->file('file')->getClientOriginalName())->first();
 
