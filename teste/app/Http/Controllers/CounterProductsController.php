@@ -3,24 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCounterProductsRequest;
-use App\Http\Requests\UpdateCounterProductsRequest;
 use App\Imports\CounterProductsImport;
 use App\Models\CounterProducts;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
 
 class CounterProductsController extends Controller
 {
-    public function upload(Request $request): JsonResponse
+    public function upload(StoreCounterProductsRequest $request): JsonResponse
     {
-        try {
-            Excel::import(new CounterProductsImport, $request->file('file'));
+        $counterProducts = CounterProducts::where('NameFile', $request->file('file')->getClientOriginalName())->first();
 
-            return response()->json('CSV imported successfully');
+        if ($counterProducts) {
+            return response()->json(['message' => 'CSV already imported'], JsonResponse::HTTP_FOUND);
+        }
+
+        try {
+            Excel::import(new CounterProductsImport(
+                $request->file('file')->getClientOriginalName()
+            ), $request->file('file'));
+
+            return response()->json(['message' => 'CSV imported successfully']);
         } catch (Throwable $exceptions) {
-            return response()->json(['error' => $exceptions], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json([
+                'code' => $exceptions->getCode(),
+                'error' => $exceptions->getMessage()
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
