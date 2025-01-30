@@ -17,6 +17,7 @@ class CounterProducts extends Model
         'DlvryTpNm', 'WdrwlDays', 'WrkgDays', 'ClnrDays', 'RlvrBasePricNm', 'OpngFutrPosDay', 'SdTpCd1',
         'UndrlygTckrSymb1', 'SdTpCd2', 'UndrlygTckrSymb2', 'PureGoldWght', 'ExrcPric', 'OptnStyle', 'ValTpNm',
         'PrmUpfrntInd', 'OpngPosLmtDt', 'DstrbtnId', 'PricFctr', 'DaysToSttlm', 'SrsTpNm', 'PrtcnFlg',
-        'AutomtcExrcInd', 'SpcfctnCd', 'CrpnNm', 'CorpActnStartDt', 'CtdyTrtmntTpNm', 'MktCptlstn', 'CorpGovnLvlNm'
+        'AutomtcExrcInd', 'SpcfctnCd', 'CrpnNm', 'CorpActnStartDt', 'CtdyTrtmntTpNm', 'MktCptlstn', 'CorpGovnLvlNm',
+        'NameFile'
     ];
 }
