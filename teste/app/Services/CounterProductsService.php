@@ -35,4 +35,19 @@ class CounterProductsService
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function history($request): JsonResponse
+    {
+        if ($request->FileName || $request->RptDt) {
+            $files = CounterProducts::select(['id', 'NameFile', 'RptDt', 'created_at as UploadAt'])
+                ->where('NameFile', '=', $request->FileName)
+                ->orWhere('RptDt', '=', $request->RptDt)
+                ->groupBy('NameFile')
+                ->get();
+
+            return response()->json($files);
+        }
+
+        return response()->json(['message' => 'File not found'], JsonResponse::HTTP_NOT_FOUND);
+    }
 }
