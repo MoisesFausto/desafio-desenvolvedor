@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CounterProductsRequest;
 use App\Http\Requests\StoreCounterProductsRequest;
 use App\Services\CounterProductsService;
+use Illuminate\Http\JsonResponse;
 
 class CounterProductsController extends Controller
 {
@@ -14,5 +16,10 @@ class CounterProductsController extends Controller
     public function fileUpload(StoreCounterProductsRequest $request): JsonResponse
     {
         return $this->counterProductsService->upload($request);
+    }
+
+    public function fileHistory(CounterProductsRequest $request): JsonResponse
+    {
+        return $this->counterProductsService->history($request);
     }
 }
