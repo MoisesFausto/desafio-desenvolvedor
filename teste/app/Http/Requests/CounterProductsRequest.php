@@ -27,6 +27,7 @@ class CounterProductsRequest extends FormRequest
         return [
             'FileName' => 'string|min:3',
             'RptDt' => 'date_format:Y-m-d',
+            'TckrSymb' => 'string|min:3',
         ];
     }
 
@@ -34,8 +35,8 @@ class CounterProductsRequest extends FormRequest
     {
         return [
             'string' => 'The :attribute must be a string.',
-            'min' => 'The :attribute must be at least 3 characters.',
-            'date' => 'The :attribute must be a date.',
+            'min' => 'The :attribute must be at least :min characters.',
+            'date' => 'The :attribute must be a :date format.',
         ];
     }
 
