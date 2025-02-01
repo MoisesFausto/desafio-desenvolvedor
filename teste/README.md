@@ -68,14 +68,15 @@ Para rodar os testes, rode o seguinte comando
 | `RptDt`      | `string` | **Opcional**.                          | YYYY-MM-DD
 
 #### Busca conteúdo do arquivo
+_Caso não passar nenhum parametro, será trago todos os registros páginados_
 
 ```http
   POST /api/file-search
 ```
 | Parâmetro   | Tipo       | Descrição                              | Formato |
 | :---------- | :--------- |:---------------------------------------|: --------|
-| `FileName`      | `string` | **Obrigatório**.                          |
-| `RptDt`      | `string` | **Obrigatório**.                          | YYYY-MM-DD
+| `TckrSymb`      | `string` | **Opcional**.                          |
+| `RptDt`      | `string` | **Opcional**.                          | YYYY-MM-DD
 
 ## Melhorias
 
