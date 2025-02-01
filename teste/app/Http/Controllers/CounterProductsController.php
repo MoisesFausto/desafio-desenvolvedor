@@ -22,4 +22,9 @@ class CounterProductsController extends Controller
     {
         return $this->counterProductsService->history($request);
     }
+
+    public function fileSearch(CounterProductsRequest $request): JsonResponse
+    {
+        return $this->counterProductsService->search($request);
+    }
 }
