@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\CounterProducts;
 use App\Imports\CounterProductsImport;
 use App\Respositories\CounterProductsRepository;
 use Illuminate\Http\JsonResponse;
@@ -11,7 +10,7 @@ use Throwable;
 
 class CounterProductsService
 {
-    public function __construct(protected CounterProducts $counterProducts, protected CounterProductsRepository $counterProductsRepository)
+    public function __construct(protected CounterProductsRepository $counterProductsRepository)
     {
     }
 
