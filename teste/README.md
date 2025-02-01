@@ -20,19 +20,19 @@ Clone o projeto
 Entre no diretório do projeto
 
 ```bash
-  cd desafio-desenvolvedor
+  cd desafio-desenvolvedor/teste
 ```
 
 Instale as dependências
 
 ```bash
-  npm 
+  sail composer install
 ```
 
 Inicie o servidor
 
 ```bash
-  npm run start
+  sail up -d
 ```
 
 
@@ -41,9 +41,8 @@ Inicie o servidor
 Para rodar os testes, rode o seguinte comando
 
 ```bash
-  npm run test
+  sail artisan test
 ```
-
 
 ## Documentação da API
 
@@ -53,22 +52,30 @@ Para rodar os testes, rode o seguinte comando
   POST /api/upload
 ```
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `file` | `file` | **Obrigatório**. csv, xls, xlsx |
+| Parâmetro   | Tipo       | Descrição                          | Formato |
+| :---------- | :--------- | :--------------------------------- |:--------|
+| `file` | `file` | **Obrigatório**. | csv, xls, xlsx
 
-#### Retorna um item
+#### Busca um historico de arquivos
 
 ```http
-  GET /api/items/${id}
+  GET /api/file-history/{FileName}/{RptDt}
 ```
 
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `id`      | `string` | **Obrigatório**. O ID do item que você quer |
+| Parâmetro   | Tipo       | Descrição                              | Formato |
+| :---------- | :--------- |:---------------------------------------|: --------|
+| `FileName`      | `string` | **Opcional**.                          |
+| `RptDt`      | `string` | **Opcional**.                          | YYYY-MM-DD
 
-Recebe dois números e retorna a sua soma.
+#### Busca conteúdo do arquivo
 
+```http
+  POST /api/file-search
+```
+| Parâmetro   | Tipo       | Descrição                              | Formato |
+| :---------- | :--------- |:---------------------------------------|: --------|
+| `FileName`      | `string` | **Obrigatório**.                          |
+| `RptDt`      | `string` | **Obrigatório**.                          | YYYY-MM-DD
 
 ## Melhorias
 
