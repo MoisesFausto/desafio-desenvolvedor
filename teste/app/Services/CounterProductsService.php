@@ -50,4 +50,31 @@ class CounterProductsService
 
         return response()->json(['message' => 'File not found'], JsonResponse::HTTP_NOT_FOUND);
     }
+
+    public function search($request): JsonResponse
+    {
+        // É necessário passar os parametros minimos para fazer a busca
+        if (!!$request->collect()->toArray() && !$request->has(['TckrSymb', 'RptDt'])) {
+            return response()->json([
+                'message' => 'Check if the parameters TckrSymb and RptDt were passed correctly'
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        // Buscar os dados se tiver um objeto no body
+        if (!!$request->collect()->toArray() || $request->has(['TckrSymb', 'RptDt'])) {
+            $query = CounterProducts::select(['RptDt', 'TckrSymb', 'MktNm', 'SctyCtgyNm', 'ISIN', 'CrpnNm']);
+
+            foreach ($request->all() as $key => $value) {
+                $query = $query->where($key, $value);
+            }
+
+            return response()->json($query->first());
+        }
+
+        // Retorna todos os dados se não tiver um objeto no body
+        $files = CounterProducts::select(['RptDt', 'TckrSymb', 'MktNm', 'SctyCtgyNm', 'ISIN', 'CrpnNm'])
+            ->paginate(10);
+
+        return response()->json($files);
+    }
 }
