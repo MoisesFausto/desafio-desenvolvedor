@@ -4,19 +4,20 @@ namespace App\Services;
 
 use App\Models\CounterProducts;
 use App\Imports\CounterProductsImport;
+use App\Respositories\CounterProductsRepository;
 use Illuminate\Http\JsonResponse;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
 
 class CounterProductsService
 {
-    public function __construct(protected CounterProducts $counterProducts)
+    public function __construct(protected CounterProducts $counterProducts, protected CounterProductsRepository $counterProductsRepository)
     {
     }
 
     public function upload($request): JsonResponse
     {
-        $counterProducts = CounterProducts::where('NameFile', $request->file('file')->getClientOriginalName())->first();
+        $counterProducts = $this->counterProductsRepository->findByFileName($request->file('file')->getClientOriginalName());
 
         if ($counterProducts) {
             return response()->json(['message' => 'CSV already imported'], JsonResponse::HTTP_FOUND);
@@ -39,11 +40,7 @@ class CounterProductsService
     public function history($request): JsonResponse
     {
         if ($request->FileName || $request->RptDt) {
-            $files = CounterProducts::select(['id', 'NameFile', 'RptDt', 'created_at as UploadAt'])
-                ->where('NameFile', '=', $request->FileName)
-                ->orWhere('RptDt', '=', $request->RptDt)
-                ->groupBy('NameFile')
-                ->get();
+            $files = $this->counterProductsRepository->findByFileNameOrRptDt($request->FileName, $request->RptDt);
 
             return response()->json($files);
         }
@@ -62,18 +59,13 @@ class CounterProductsService
 
         // Buscar os dados se tiver um objeto no body
         if (!!$request->collect()->toArray() || $request->has(['TckrSymb', 'RptDt'])) {
-            $query = CounterProducts::select(['RptDt', 'TckrSymb', 'MktNm', 'SctyCtgyNm', 'ISIN', 'CrpnNm']);
+            $counterProduct = $this->counterProductsRepository->findByParams($request->all());
 
-            foreach ($request->all() as $key => $value) {
-                $query = $query->where($key, $value);
-            }
-
-            return response()->json($query->first());
+            return response()->json($counterProduct);
         }
 
         // Retorna todos os dados se não tiver um objeto no body
-        $files = CounterProducts::select(['RptDt', 'TckrSymb', 'MktNm', 'SctyCtgyNm', 'ISIN', 'CrpnNm'])
-            ->paginate(10);
+        $files = $this->counterProductsRepository->getAllCounterProductsPaginate(10);
 
         return response()->json($files);
     }
