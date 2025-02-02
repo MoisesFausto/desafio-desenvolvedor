@@ -49,7 +49,7 @@ class CounterProductsService
 
     public function search($request): JsonResponse
     {
-        // É necessário passar os parametros minimos para fazer a busca
+        // É necessário passar os 2 parametros minimos para fazer a busca
         if (!!$request->collect()->toArray() && !$request->has(['TckrSymb', 'RptDt'])) {
             return response()->json([
                 'message' => 'Check if the parameters TckrSymb and RptDt were passed correctly'
