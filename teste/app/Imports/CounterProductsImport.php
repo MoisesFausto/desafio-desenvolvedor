@@ -4,9 +4,13 @@ namespace App\Imports;
 
 use App\Models\CounterProducts;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class CounterProductsImport implements ToModel, WithStartRow
+class CounterProductsImport implements
+    ToModel,
+    WithStartRow,
+    WithBatchInserts
 {
     protected ?string $nameFile;
 
@@ -79,10 +83,13 @@ class CounterProductsImport implements ToModel, WithStartRow
         ]);
     }
 
-
-
     public function startRow(): int
     {
         return 3;
+    }
+
+    public function batchSize(): int
+    {
+        return 1000;
     }
 }
