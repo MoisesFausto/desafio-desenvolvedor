@@ -9,6 +9,11 @@ Aplicação backend feita com objetivo de avaliar a lógica e capacidade de impl
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=plastic&logo=mysql&logoColor=white)
 ![Sail](https://img.shields.io/badge/sail-%230db7ed.svg?style=plastic&logo=docker&logoColor=white)
 
+### Sobre o Sail
+
+Usarei para criar o ambiente Laravel com MySQL o [Sail](https://laravel.com/docs/11.x/installation#docker-installation-using-sail) que por "de baixo dos panos" usa Docker para criar
+o container com as imagens que vem por padrão no Laravel. Os comando são os mesmo, alterando apenas o:
+
 ## Rodando localmente
 
 Clone o projeto
@@ -23,7 +28,7 @@ Entre no diretório do projeto
   cd desafio-desenvolvedor/teste
 ```
 
-Instale as dependências
+### Instale as dependências
 
 ```bash
   sail composer install
@@ -78,7 +83,15 @@ _Caso não passar nenhum parametro, será trago todos os registros páginados_
 | `TckrSymb`      | `string` | **Opcional**.                          |
 | `RptDt`      | `string` | **Opcional**.                          | YYYY-MM-DD
 
+## Verificar andamento das Filas
+
+```bash
+  sail artisan queue:work
+```
+
 ## Melhorias
 
-Que melhorias você fez no seu código? Ex: refatorações, melhorias de performance, acessibilidade, etc
-
+* Fazer uma cobertura de teste maior
+* Criar um endpoint para mostrar ao usuário o progresso do carregamento
+* Enviar notificação para o usuário ao finalizar o processo
+* Criar autentificação para consumo das apis
