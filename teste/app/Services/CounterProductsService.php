@@ -2,14 +2,12 @@
 
 namespace App\Services;
 
-use App\Imports\CounterProductsImport;
 use App\Jobs\ProcessCounterProducts;
 use App\Respositories\CounterProductsRepository;
 use Illuminate\Bus\Batch;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 use Throwable;
 
