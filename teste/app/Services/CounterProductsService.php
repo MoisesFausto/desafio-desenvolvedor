@@ -3,9 +3,14 @@
 namespace App\Services;
 
 use App\Imports\CounterProductsImport;
+use App\Jobs\ProcessCounterProducts;
 use App\Respositories\CounterProductsRepository;
+use Illuminate\Bus\Batch;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
 use Throwable;
 
 class CounterProductsService
@@ -22,16 +27,25 @@ class CounterProductsService
             return response()->json(['message' => 'CSV already imported'], JsonResponse::HTTP_FOUND);
         }
 
+        $pathFile = $request->file('file')->store('temp_files-imported');
+
+        // Motivo de apagar o arquivo do storage é não gerar carga para o servidor local
         try {
-            Excel::import(new CounterProductsImport(
-                $request->file('file')->getClientOriginalName()
-            ), $request->file('file'));
+            Bus::batch([
+                new ProcessCounterProducts($request->file('file')->getClientOriginalName(), $pathFile)
+            ])
+            ->progress(fn(Batch $batch) => $batch->progress() )
+            ->then( fn() => response()->json(['message' => 'CSV imported successfully']) )
+            ->catch( fn(Batch $batch, Throwable $throwable) => [$batch, $throwable] )
+            ->finally( fn(Batch $batch) => Storage::delete($pathFile) )
+            ->dispatch();
 
             return response()->json(['message' => 'CSV imported successfully']);
-        } catch (Throwable $exceptions) {
+        } catch (ValidationException $exception) {
+            $failures = $exception->failures();
+
             return response()->json([
-                'code' => $exceptions->getCode(),
-                'error' => $exceptions->getMessage()
+                'error' => $failures->errors()
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
