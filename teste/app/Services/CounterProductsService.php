@@ -25,7 +25,7 @@ class CounterProductsService
             return response()->json(['message' => 'CSV already imported'], JsonResponse::HTTP_FOUND);
         }
 
-        $pathFile = $request->file('file')->store('temp_files-imported');
+        $pathFile = $request->file('file')->store('temp-files-imported');
 
         // Motivo de apagar o arquivo do storage é não gerar carga para o servidor local
         try {
@@ -50,7 +50,7 @@ class CounterProductsService
 
     public function history($request): JsonResponse
     {
-        if ($request->FileName || $request->RptDt) {
+        if ($request->has('FileName') || $request->has('RptDt')) {
             $files = $this->counterProductsRepository->findByFileNameOrRptDt($request->FileName, $request->RptDt);
 
             return response()->json($files);
