@@ -12,7 +12,7 @@ Aplicação backend feita com objetivo de avaliar a lógica e capacidade de impl
 ### Sobre o Sail
 
 Usarei para criar o ambiente Laravel com MySQL o [Sail](https://laravel.com/docs/11.x/installation#docker-installation-using-sail) que por "de baixo dos panos" usa Docker para criar
-o container com as imagens que vem por padrão no Laravel. Os comando são os mesmo, alterando apenas o:
+o container com as imagens que vem por padrão no Laravel.
 
 ## Rodando localmente
 
@@ -28,16 +28,43 @@ Entre no diretório do projeto
   cd desafio-desenvolvedor/teste
 ```
 
+Faça uma copia do arquivo .env.example
+
+```bash
+  cp .env.example .env
+```
+
+_**Importante:** Altere as variveis de ambiente relacionada ao banco de dados, para apontar para o banco de dados local_
+
+Instalar dependências do Composer
+
+```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+Iniciar o servidor
+```bash
+sail up -d
+```
+
+Gere um APP_KEY
+```bash
+sail artisan key:generate
+```
+
+## Rodando as migrations
+
+**Importante:** _Antes de rodar as migrates, é **necessário** manter ```DB_HOST``` como mysql, por causa da configuração do Sail_
+
 Instale as dependências
 
 ```bash
-  sail composer install
-```
-
-Inicie o servidor
-
-```bash
-  docker compose up -d
+  sail artisan migrate
 ```
 
 
@@ -98,7 +125,7 @@ _Caso não passar nenhum parametro, será trago todos os registros páginados_
 * Dependendo da regra de negocio, talvez seja melhor manter os arquivos salvos em algum storage para analises
 * Aplicar padrão Factory para a classe do Excel, para poder comportar outros tipos de arquivo, se no futuro for necessário
 
-### Cache
+### ✓ Cache
 Optei por utilzar cacheamento por file, que a princípio funciona para esse caso de uso.
 Mas a melhor opção seria utilizar um Redis ou similar para ser mais perfomático a nível de
 aplicação.
