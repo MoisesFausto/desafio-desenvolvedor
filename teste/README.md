@@ -97,3 +97,12 @@ _Caso não passar nenhum parametro, será trago todos os registros páginados_
 * Enviar notificação para o usuário ao finalizar o processo
 * Dependendo da regra de negocio, talvez seja melhor manter os arquivos salvos em algum storage para analises
 * Aplicar padrão Factory para a classe do Excel, para poder comportar outros tipos de arquivo, se no futuro for necessário
+
+### Cache
+Optei por utilzar cacheamento por file, que a princípio funciona para esse caso de uso.
+Mas a melhor opção seria utilizar um Redis ou similar para ser mais perfomático a nível de
+aplicação.
+
+Também é possivel utilizar cacheamento por database, mas seria trocar 6 por meia duzia,
+pois será necessário fazer requisição ao banco de dados de qualquer forma, desempenhando
+um novo processo de consulta ao banco.
