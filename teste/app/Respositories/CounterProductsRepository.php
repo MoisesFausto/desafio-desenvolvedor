@@ -5,6 +5,7 @@ namespace App\Respositories;
 use App\Contracts;
 use App\Models\CounterProducts;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class CounterProductsRepository implements Contracts\CounterProductsRepository
 {
@@ -35,8 +36,10 @@ class CounterProductsRepository implements Contracts\CounterProductsRepository
 
     public function getAllCounterProductsPaginate(int $paginate = 100)
     {
-        return CounterProducts::select(
-            ['RptDt', 'TckrSymb', 'MktNm', 'SctyCtgyNm', 'ISIN', 'CrpnNm']
-        )->paginate($paginate);
+        return Cache::remember('counterProductsPaginate', 10, function () use ($paginate) {
+            return CounterProducts::select(
+                ['RptDt', 'TckrSymb', 'MktNm', 'SctyCtgyNm', 'ISIN', 'CrpnNm']
+            )->paginate($paginate);
+        });
     }
 }
