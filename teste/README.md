@@ -59,7 +59,7 @@ Para rodar os testes, rode o seguinte comando
 
 | Parâmetro   | Tipo       | Descrição                          | Formato |
 | :---------- | :--------- | :--------------------------------- |:--------|
-| `file` | `file` | **Obrigatório**. | csv, xls, xlsx
+| `file`      | `file`     | **Obrigatório**.                   | csv, xls, xlsx
 
 #### Busca um historico de arquivos
 
@@ -67,10 +67,10 @@ Para rodar os testes, rode o seguinte comando
   GET /api/file-history/{FileName}/{RptDt}
 ```
 
-| Parâmetro   | Tipo       | Descrição                              | Formato |
-| :---------- | :--------- |:---------------------------------------|: --------|
-| `FileName`      | `string` | **Opcional**.                          |
-| `RptDt`      | `string` | **Opcional**.                          | YYYY-MM-DD
+| Parâmetro   | Tipo       | Descrição                          | Formato |
+| :---------- | :--------- | :--------------------------------- |:--------|
+| `FileName`  | `string`   | **Opcional**.                      |
+| `RptDt`     | `string`   | **Opcional**.                      | YYYY-MM-DD
 
 #### Busca conteúdo do arquivo
 _Caso não passar nenhum parametro, será trago todos os registros páginados_
@@ -78,10 +78,10 @@ _Caso não passar nenhum parametro, será trago todos os registros páginados_
 ```http
   POST /api/file-search
 ```
-| Parâmetro   | Tipo       | Descrição                              | Formato |
-| :---------- | :--------- |:---------------------------------------|: --------|
-| `TckrSymb`      | `string` | **Opcional**.                          |
-| `RptDt`      | `string` | **Opcional**.                          | YYYY-MM-DD
+| Parâmetro   | Tipo       | Descrição                          | Formato |
+| :---------- | :--------- | :--------------------------------- |:--------|
+| `TckrSymb`  | `string`   | **Opcional**.                      |
+| `RptDt`     | `string`   | **Opcional**.                      | YYYY-MM-DD
 
 ## Verificar andamento das Filas
 
