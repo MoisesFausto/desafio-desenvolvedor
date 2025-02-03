@@ -28,7 +28,7 @@ Entre no diretório do projeto
   cd desafio-desenvolvedor/teste
 ```
 
-### Instale as dependências
+Instale as dependências
 
 ```bash
   sail composer install
@@ -37,7 +37,7 @@ Entre no diretório do projeto
 Inicie o servidor
 
 ```bash
-  sail up -d
+  docker compose up -d
 ```
 
 
@@ -91,7 +91,9 @@ _Caso não passar nenhum parametro, será trago todos os registros páginados_
 
 ## Melhorias
 
+* Criar autentificação para consumo das apis
 * Fazer uma cobertura de teste maior
 * Criar um endpoint para mostrar ao usuário o progresso do carregamento
 * Enviar notificação para o usuário ao finalizar o processo
-* Criar autentificação para consumo das apis
+* Dependendo da regra de negocio, talvez seja melhor manter os arquivos salvos em algum storage para analises
+* Aplicar padrão Factory para a classe do Excel, para poder comportar outros tipos de arquivo, se no futuro for necessário
